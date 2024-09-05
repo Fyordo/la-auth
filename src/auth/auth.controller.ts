@@ -5,8 +5,8 @@ import {AuthService} from "./auth.service";
 export class AuthController {
     constructor(private readonly authService: AuthService) {
     }
-    @Get("/auth/register")
+    @Get("/register")
     register(): string {
-        return this.authService.getHello();
+        return "dadada";
     }
 }

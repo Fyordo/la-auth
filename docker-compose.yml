@@ -1,25 +1,38 @@
-version: '3.6'
+version: "3.6"
+
 services:
-  postgres:
-    image: postgres:latest
+  db:
+    build:
+      context: .
+      dockerfile: .docker/pgsql/Dockerfile
+    restart: always
+    container_name: ${APP_NAME}-db
     env_file:
-      - .env
-    environment:
-      POSTGRES_USER: ${DB_USERNAME}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_DB: ${DB_DATABASE}
+      - ".env"
+    networks:
+      la-network:
+        aliases:
+          - db.${DOCKER_NETWORK}
     ports:
       - ${OUTER_DB_PORT}:${DB_PORT}
+    environment:
+      - POSTGRES_DB=${DB_DATABASE}
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - ./docker/postgres/datadir:/var/lib/postgresql/data
 
   nestjs:
+    container_name: ${APP_NAME}-app
     build:
       context: .
       dockerfile: .docker/Dockerfile
     depends_on:
-      - postgres
+      - db
     ports:
       - "3000:3000"
-volumes:
-  pgdata:
+
+networks:
+  la-network:
+    external: true
+    name: ${DOCKER_NETWORK}
