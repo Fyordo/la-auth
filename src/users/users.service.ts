@@ -18,7 +18,7 @@ export class UsersService {
     ): Promise<User> {
         const salt = await bcrypt.genSalt();
         const hashedPassword: string = await bcrypt.hash(password, salt);
-        const newUser = this.userRepository.create({
+        const newUser: User = this.userRepository.create({
             login,
             password: hashedPassword,
             avatarUrl
