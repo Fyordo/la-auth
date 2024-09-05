@@ -8,7 +8,7 @@ services:
     restart: always
     container_name: ${APP_NAME}-db
     env_file:
-      - ".env"
+      - ".env.local"
     networks:
       la-network:
         aliases:
@@ -20,7 +20,7 @@ services:
       - POSTGRES_USER=${DB_USERNAME}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
     volumes:
-      - ./docker/postgres/datadir:/var/lib/postgresql/data
+      - ./.docker/postgres/datadir:/var/lib/postgresql/data
 
   nestjs:
     container_name: ${APP_NAME}-app
