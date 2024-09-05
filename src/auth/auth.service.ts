@@ -30,6 +30,10 @@ export class AuthService {
         }
     }
 
+    async verify(token: string): Promise<TokenResponse> {
+        return await this.jwtService.verifyToken(token);
+    }
+
     async register(login: string, password: string, avatarUrl: string): Promise<any> {
         let user: User = await this.userService.findByLogin(login);
         if (user) {
