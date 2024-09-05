@@ -10,16 +10,20 @@ export class UsersService {
     ) {
     }
 
-    async createUser(login: string, password: string, avatarUrl: string): Promise<User> {
+    async createUser(
+        login: string,
+        password: string,
+        avatarUrl: string
+    ): Promise<User> {
         const newUser = this.userRepository.create({login, password, avatarUrl});
         return await this.userRepository.save(newUser);
     }
 
-    async findAllUsers(): Promise<User[]> {
-        return await this.userRepository.find();
+    async findAllUsers(filter: Object): Promise<User[]> {
+        return await this.userRepository.findBy(filter);
     }
 
-    async findOneUser(id: number): Promise<User> {
+    async findById(id: number): Promise<User> {
         return await this.userRepository.findOneBy({id: id});
     }
 
