@@ -4,10 +4,15 @@ import {User} from "../users/user.entity";
 import * as bcrypt from 'bcrypt';
 import {WrongCredentialsException} from "../exceptions/wrongcredentials";
 import {TokenResponse} from "./token.response";
+import {JwtService} from "./jwt.service";
 
 @Injectable()
 export class AuthService {
-    constructor(private readonly userService: UsersService) {}
+    constructor(
+        private readonly userService: UsersService,
+        private readonly jwtService: JwtService,
+    ) {
+    }
 
     async login(login: string, password: string): Promise<TokenResponse> {
         let user: User = await this.userService.findByLogin(login);
@@ -18,9 +23,10 @@ export class AuthService {
         if (!passwordCheck) {
             throw new WrongCredentialsException(`Wrong login or password`);
         }
+        let token = await this.jwtService.generateToken({id: user.id, login: user.login});
 
         return {
-            token: null
+            token: token
         }
     }
 
