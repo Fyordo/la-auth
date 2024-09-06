@@ -5,6 +5,7 @@ import * as bcrypt from 'bcrypt';
 import {WrongCredentialsException} from "../exceptions/wrongcredentials";
 import {TokenResponse} from "./token.response";
 import {JwtService} from "./jwt.service";
+import {UserDto} from "../users/user.dto";
 
 @Injectable()
 export class AuthService {
@@ -30,8 +31,8 @@ export class AuthService {
         }
     }
 
-    async verify(token: string): Promise<TokenResponse> {
-        return await this.jwtService.verifyToken(token);
+    async verify(token: string): Promise<UserDto> {
+        return await this.jwtService.verifyToken(token) as UserDto;
     }
 
     async register(login: string, password: string, avatarUrl: string): Promise<any> {

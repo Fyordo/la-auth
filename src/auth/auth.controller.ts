@@ -22,6 +22,6 @@ export class AuthController {
     async verify(@Req() request: Request, @Res() response) {
         let token = request.headers['authorization'].split(' ')[1];
         let verifyResult = await this.authService.verify(token);
-        return response.status(200).json(verifyResult)
+        return response.status(200).json(verifyResult.id)
     }
 }

@@ -1,5 +1,5 @@
 import * as jwt from 'jsonwebtoken';
-import {UserDto} from "../dtos/user.dto";
+import {UserDto} from "../users/user.dto";
 
 export class JwtService {
     private secret = 'your_secret_key'; // Замените на свой секретный ключ
