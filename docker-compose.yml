@@ -22,15 +22,17 @@ services:
     volumes:
       - ./.docker/postgres/datadir:/var/lib/postgresql/data
 
-  nestjs:
+  app:
     container_name: ${APP_NAME}-app
     build:
       context: .
       dockerfile: .docker/Dockerfile
+    env_file:
+      - ".env"
     networks:
       la-network:
         aliases:
-          - db.${DOCKER_NETWORK}
+          - app.${DOCKER_NETWORK}
     depends_on:
       - db
     ports:
